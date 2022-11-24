@@ -1,9 +1,13 @@
-CREATE TABLE `Horario` (
-  `IdHorario` INTEGER,
-  `IdPelicula` INTEGER,
+CREATE TABLE `Boleto` (
+  `NumeroBoleto` INTENGER,
+  `IdPelicula` Tipo,
+  `IdCliente` INTEGER,
   `IdSala` INTEGER,
-  `Fecha` Tipo,
-  `Hora` Tipo
+  `IdButaca` INTEGER,
+  `IdProducto` INTEGER,
+  `Nombre_Cliente` TEXT,
+  PRIMARY KEY (`NumeroBoleto`),
+  KEY `Clave` (`Nombre_Cliente`)
 );
 
 CREATE TABLE `Sala` (
@@ -15,18 +19,35 @@ CREATE TABLE `Sala` (
   KEY `Clave` (`VIP`, `3D/2D`)
 );
 
-CREATE TABLE `Boleto` (
-  `NumeroBoleto` INTENGER,
-  `IdPelicula` Tipo,
-  `IdCliente` INTEGER,
+CREATE TABLE `Producto` (
+  `IdProductos` INTEGER,
   `IdSala` INTEGER,
   `IdButaca` INTEGER,
-  `IdProducto` INTEGER,
-  `Nombre_Cliente` TEXT,
-  PRIMARY KEY (`NumeroBoleto`),
-  FOREIGN KEY (`IdSala`) REFERENCES `Sala`(`IdSala`),
-  FOREIGN KEY (`IdButaca`) REFERENCES `Sala`(`IdButaca`),
-  KEY `Clave` (`Nombre_Cliente`)
+  `IdHorario` INTEGER,
+  `NumeroBoleto` INTEGER,
+  `Precio` NUMERIC,
+  `Descripcion` TEXT,
+  PRIMARY KEY (`IdProductos`),
+  KEY `Clave` (`Precio`, `Descripcion`)
+);
+
+CREATE TABLE `Horario` (
+  `IdHorario` INTEGER,
+  `IdPelicula` INTEGER,
+  `IdSala` INTEGER,
+  `Fecha` Tipo,
+  `Hora` Tipo,
+  PRIMARY KEY (`IdHorario`),
+  KEY `Clave` (`Fecha`, `Hora`)
+);
+
+CREATE TABLE `Pelicula` (
+  `IdPelicula` INTEGER,
+  `Duracion` INTEGER,
+  `Genero` TEXT,
+  `Descripcion` TEXT,
+  PRIMARY KEY (`IdPelicula`),
+  KEY `Clave` (`Duracion`, `Genero`, `Descripcion`)
 );
 
 CREATE TABLE `Clientes` (
@@ -36,31 +57,8 @@ CREATE TABLE `Clientes` (
   `Nombre` TEXT,
   `Apellido` TEXT,
   `DNI` INTEGER,
-  FOREIGN KEY (`IdClientes`) REFERENCES `Boleto`(`IdCliente`)
-);
-
-CREATE TABLE `Peliculas` (
-  `IdPelicula` INTEGER,
-  `Duracion` INTEGER,
-  `Genero` TEXT,
-  `Descripcion` TEXT,
-  FOREIGN KEY (`IdPelicula`) REFERENCES `Boleto`(`IdPelicula`)
-);
-
-CREATE TABLE `Producto` (
-  `IdProductos` INTEGER,
-  `IdSala` INTEGER,
-  `Precio` NUMERIC,
-  `Descripcion` TEXT,
-  `IdHorario` INTEGER,
-  `NumeroBoleto` INTEGER,
-  `IdButaca` INTEGER,
-  `IdHorario` INTEGER,
-  FOREIGN KEY (`Descripcion`) REFERENCES `Peliculas`(`IdPelicula`),
-  FOREIGN KEY (`IdSala`) REFERENCES `Sala`(`IdSala`),
-  FOREIGN KEY (`IdButaca`) REFERENCES `Sala`(`IdButaca`),
-  FOREIGN KEY (`NumeroBoleto`) REFERENCES `Boleto`(`NumeroBoleto`),
-  FOREIGN KEY (`IdProductos`) REFERENCES `Boleto`(`IdProducto`)
+  PRIMARY KEY (`IdClientes`),
+  KEY `Clave` (`Usuario`, `Contraseña`, `Nombre`, `Apellido`, `DNI`)
 );
 
 CREATE TABLE `Vendedor` (
